@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zrk.data.pump.mapper.DataSyncMapper">
+  <resultMap id="BaseResultMap" type="com.zrk.data.pump.pojo.DataSync">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="table_name" jdbcType="VARCHAR" property="tableName" />
+    <result column="key_name" jdbcType="VARCHAR" property="keyName" />
+    <result column="key_value" jdbcType="VARCHAR" property="keyValue" />
+    <result column="opt_type" jdbcType="VARCHAR" property="optType" />
+    <result column="action" jdbcType="VARCHAR" property="action" />
+    <result column="execution_count" jdbcType="INTEGER" property="executionCount" />
+    <result column="next_execution_time" jdbcType="TIMESTAMP" property="nextExecutionTime" />
+    <result column="priority" jdbcType="INTEGER" property="priority" />
+    <result column="key_expression" jdbcType="VARCHAR" property="keyExpression" />
+    <result column="err_info" jdbcType="VARCHAR" property="errInfo" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="stat" jdbcType="TINYINT" property="stat" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, table_name, key_name, key_value, opt_type, action, execution_count, next_execution_time, 
+    priority, key_expression, err_info, create_time, update_time, stat
+  </sql>
+  <select id="selectByExample" parameterType="com.zrk.data.pump.pojo.DataSyncExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from data_sync
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from data_sync
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from data_sync
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zrk.data.pump.pojo.DataSyncExample">
+    delete from data_sync
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyProperty="id" parameterType="com.zrk.data.pump.pojo.DataSync" useGeneratedKeys="true">
+    insert into data_sync (id, table_name, key_name, 
+      key_value, opt_type, action, 
+      execution_count, next_execution_time, priority, 
+      key_expression, err_info, create_time, 
+      update_time, stat)
+    values (#{id,jdbcType=BIGINT}, #{tableName,jdbcType=VARCHAR}, #{keyName,jdbcType=VARCHAR}, 
+      #{keyValue,jdbcType=VARCHAR}, #{optType,jdbcType=VARCHAR}, #{action,jdbcType=VARCHAR}, 
+      #{executionCount,jdbcType=INTEGER}, #{nextExecutionTime,jdbcType=TIMESTAMP}, #{priority,jdbcType=INTEGER}, 
+      #{keyExpression,jdbcType=VARCHAR}, #{errInfo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{stat,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" keyProperty="id" parameterType="com.zrk.data.pump.pojo.DataSync" useGeneratedKeys="true">
+    insert into data_sync
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="tableName != null">
+        table_name,
+      </if>
+      <if test="keyName != null">
+        key_name,
+      </if>
+      <if test="keyValue != null">
+        key_value,
+      </if>
+      <if test="optType != null">
+        opt_type,
+      </if>
+      <if test="action != null">
+        action,
+      </if>
+      <if test="executionCount != null">
+        execution_count,
+      </if>
+      <if test="nextExecutionTime != null">
+        next_execution_time,
+      </if>
+      <if test="priority != null">
+        priority,
+      </if>
+      <if test="keyExpression != null">
+        key_expression,
+      </if>
+      <if test="errInfo != null">
+        err_info,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="stat != null">
+        stat,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="tableName != null">
+        #{tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="keyName != null">
+        #{keyName,jdbcType=VARCHAR},
+      </if>
+      <if test="keyValue != null">
+        #{keyValue,jdbcType=VARCHAR},
+      </if>
+      <if test="optType != null">
+        #{optType,jdbcType=VARCHAR},
+      </if>
+      <if test="action != null">
+        #{action,jdbcType=VARCHAR},
+      </if>
+      <if test="executionCount != null">
+        #{executionCount,jdbcType=INTEGER},
+      </if>
+      <if test="nextExecutionTime != null">
+        #{nextExecutionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="priority != null">
+        #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="keyExpression != null">
+        #{keyExpression,jdbcType=VARCHAR},
+      </if>
+      <if test="errInfo != null">
+        #{errInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stat != null">
+        #{stat,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zrk.data.pump.pojo.DataSyncExample" resultType="java.lang.Long">
+    select count(*) from data_sync
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update data_sync
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.tableName != null">
+        table_name = #{record.tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.keyName != null">
+        key_name = #{record.keyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.keyValue != null">
+        key_value = #{record.keyValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.optType != null">
+        opt_type = #{record.optType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.action != null">
+        action = #{record.action,jdbcType=VARCHAR},
+      </if>
+      <if test="record.executionCount != null">
+        execution_count = #{record.executionCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.nextExecutionTime != null">
+        next_execution_time = #{record.nextExecutionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.priority != null">
+        priority = #{record.priority,jdbcType=INTEGER},
+      </if>
+      <if test="record.keyExpression != null">
+        key_expression = #{record.keyExpression,jdbcType=VARCHAR},
+      </if>
+      <if test="record.errInfo != null">
+        err_info = #{record.errInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.stat != null">
+        stat = #{record.stat,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update data_sync
+    set id = #{record.id,jdbcType=BIGINT},
+      table_name = #{record.tableName,jdbcType=VARCHAR},
+      key_name = #{record.keyName,jdbcType=VARCHAR},
+      key_value = #{record.keyValue,jdbcType=VARCHAR},
+      opt_type = #{record.optType,jdbcType=VARCHAR},
+      action = #{record.action,jdbcType=VARCHAR},
+      execution_count = #{record.executionCount,jdbcType=INTEGER},
+      next_execution_time = #{record.nextExecutionTime,jdbcType=TIMESTAMP},
+      priority = #{record.priority,jdbcType=INTEGER},
+      key_expression = #{record.keyExpression,jdbcType=VARCHAR},
+      err_info = #{record.errInfo,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      stat = #{record.stat,jdbcType=TINYINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zrk.data.pump.pojo.DataSync">
+    update data_sync
+    <set>
+      <if test="tableName != null">
+        table_name = #{tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="keyName != null">
+        key_name = #{keyName,jdbcType=VARCHAR},
+      </if>
+      <if test="keyValue != null">
+        key_value = #{keyValue,jdbcType=VARCHAR},
+      </if>
+      <if test="optType != null">
+        opt_type = #{optType,jdbcType=VARCHAR},
+      </if>
+      <if test="action != null">
+        action = #{action,jdbcType=VARCHAR},
+      </if>
+      <if test="executionCount != null">
+        execution_count = #{executionCount,jdbcType=INTEGER},
+      </if>
+      <if test="nextExecutionTime != null">
+        next_execution_time = #{nextExecutionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="priority != null">
+        priority = #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="keyExpression != null">
+        key_expression = #{keyExpression,jdbcType=VARCHAR},
+      </if>
+      <if test="errInfo != null">
+        err_info = #{errInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stat != null">
+        stat = #{stat,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zrk.data.pump.pojo.DataSync">
+    update data_sync
+    set table_name = #{tableName,jdbcType=VARCHAR},
+      key_name = #{keyName,jdbcType=VARCHAR},
+      key_value = #{keyValue,jdbcType=VARCHAR},
+      opt_type = #{optType,jdbcType=VARCHAR},
+      action = #{action,jdbcType=VARCHAR},
+      execution_count = #{executionCount,jdbcType=INTEGER},
+      next_execution_time = #{nextExecutionTime,jdbcType=TIMESTAMP},
+      priority = #{priority,jdbcType=INTEGER},
+      key_expression = #{keyExpression,jdbcType=VARCHAR},
+      err_info = #{errInfo,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      stat = #{stat,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
